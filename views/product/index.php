@@ -47,12 +47,12 @@
         <li>
             <div class="row">
                 <div class="col-xs-4 col-sm-4 no-margin">
-                    <a href="#" class="thumb-holder">
+                <a href="<?= yii\helpers\Url::to(['product/detail', 'pid' => $sale['pid']]);?>" class="thumb-holder">
                     <img alt="" src="<?= $sale['cover']?>"/>
                     </a>
                 </div>
                 <div class="col-xs-8 col-sm-8 no-margin">
-                    <a href="#">Netbook Acer </a>
+                <a href="<?= yii\helpers\Url::to(['product/detail', 'pid' => $sale['pid']]);?>"><?= $sale['title']?></a>
                     <div class="price">
                     <div class="price-prev">￥<?= $sale['price']?></div>
                     <div class="price-current">￥<?= $sale['saleprice']?></div>
@@ -71,12 +71,12 @@
         <li class="sidebar-product-list-item">
             <div class="row">
                 <div class="col-xs-4 col-sm-4 no-margin">
-                    <a href="#" class="thumb-holder">
+                <a href="<?= yii\helpers\Url::to(['product/detail', 'pid' => $tui['pid']]);?>" class="thumb-holder">
                     <img alt="" src="<?= $tui['cover']?>"/>
                     </a>
                 </div>
                 <div class="col-xs-8 col-sm-8 no-margin">
-                    <a href="#">Netbook Acer </a>
+                <a href="<?= yii\helpers\Url::to(['product/detail', 'pid' => $tui['pid']]);?>"><?= $tui['title']?></a>
                     <div class="price">
                     <div class="price-prev">￥<?= $tui['price']?></div>
                     <div class="price-current">￥<?= $tui['saleprice']?></div>
@@ -111,11 +111,11 @@
             <div class="product-item">
                 <div class="ribbon red"><span>hot</span></div>
                 <div class="image">
-                    <img alt="" src="<?= $hot['cover']?>-covermiddle"/>
+                   <a href="<?= yii\helpers\Url::to(['product/detail', 'pid' => $hot['pid']]);?>"> <img alt="" src="<?= $hot['cover']?>-covermiddle"/></a>
                 </div>
                 <div class="body">
                     <div class="title">
-                    <a href="single-product.html"><?= $hot['title']?></a>
+                    <a href="<?= yii\helpers\Url::to(['product/detail', 'pid' => $hot['pid']]);?>"><?= $hot['title']?></a>
                     </div>
                     <div class="brand">sharp</div>
                 </div>
@@ -173,12 +173,12 @@
                                 <div class="ribbon red"><span>sale</span></div>
                                 <?php endif;?>
                                 <div class="image">
-                                    <img alt="" src="<?= $pro['cover']?>"/>
+                                   <a href="<?= yii\helpers\Url::to(['product/detail', 'pid' => $pro['pid']]);?>"> <img alt="" src="<?= $pro['cover']?>"/></a>
                                 </div>
                                 <div class="body">
                                 <div class="label-discount green">-<?= round($pro['saleprice'] / $pro['price'] * 100, 0);?>% sale</div>
                                     <div class="title">
-                                    <a href="single-product.html"><?= $pro['title']?></a>
+                                    <a href="<?= yii\helpers\Url::to(['product/detail', 'pid' => $pro['pid']]);?>"><?= $pro['title']?></a>
                                     </div>
                                     <div class="brand">sony</div>
                                 </div>

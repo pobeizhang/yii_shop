@@ -32,6 +32,8 @@ class ProductController extends CommonController
     public function actionDetail()
     {
         $this->layout = "layout2";
-        return $this->render('detail');
+        $pid = Yii::$app->request->get('pid');
+        $product = Home_product::find()->where('pid = :id', [':id' => $pid])->asArray()->one();
+        return $this->render('detail', ['product' => $product]);
     }
 }

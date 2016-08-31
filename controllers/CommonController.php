@@ -9,7 +9,6 @@ class CommonController extends Controller
 {
     public function init()
     {
-        parent::init();
         $menu = Home_category::getMenu();
         $this->view->params['menu'] = $menu;
     }
