@@ -1,9 +1,10 @@
 <?php namespace app\controllers;
+use app\controllers\CommonController;
 use yii\web\Controller;
 use app\models\Home_user;
 use Yii;
 
-class MemberController extends Controller
+class MemberController extends CommonController
 {
     //用户登陆页面加载
     public function actionAuth()

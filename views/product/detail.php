@@ -50,13 +50,16 @@
     </div><!-- /.single-product-gallery -->
 </div><!-- /.gallery-holder -->
         <div class="no-margin col-xs-12 col-sm-7 body-holder">
-    <div class="body">
-    <div class="title"><a href="#"><?= $product['title']?></a></div>
-        <div class="brand"></div>
-
-        <div class="excerpt">
-        <p><?= $product['descr']?></p>
-        </div>
+            <div class="body">
+                <div class="title"><a href="#"><?= $product['title']?></a></div>
+                <div class="brand"></div>
+                <div class="availability" style="font-size:15px;margin:0;line-height:30px">
+                    <label>库存:</label>
+                    <span class="available">  <?php echo $product['num'] ?></span>
+                </div>
+                <div class="excerpt">
+                    <p><?= $product['descr']?></p>
+                </div>
 
         <div class="prices">
             <?php if($product['issale'] == 1):?>
@@ -73,10 +76,13 @@
             ]);?>
             <div class="le-quantity">
                     <a class="minus" href="#reduce"></a>
-                    <input name="quantity" readonly="readonly" type="text" value="1" />
+                    <input name="productnum" readonly="readonly" type="text" value="1" />
                     <a class="plus" href="#add"></a>
             </div>
-            <a id="addto-cart" href="cart.html" class="le-button huge">加入购物车</a>
+            <input type = "hidden" name = "price" value = "<?= ($product['issale'] == 1) ? $product['saleprice'] : $product['price'] ?>" />
+            <input type = "hidden" name = "productid" value = "<?= $product['pid']?>" />
+            
+            <input type = "submit" id="addto-cart" class="le-button huge" value = "加入购物车">
             <?php ActiveForm::end();?>
         </div><!-- /.qnt-holder -->
     </div><!-- /.body -->

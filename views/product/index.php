@@ -98,7 +98,7 @@
             <section id="recommended-products" class="carousel-holder hover small">
 
     <div class="title-nav">
-        <h2 class="inverse">推荐商品</h2>
+        <h2 class="inverse">热卖商品</h2>
         <div class="nav-holder">
             <a href="#prev" data-target="#owl-recommended-products" class="slider-prev btn-prev fa fa-angle-left"></a>
             <a href="#next" data-target="#owl-recommended-products" class="slider-next btn-next fa fa-angle-right"></a>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="hover-area">
                     <div class="add-cart-button">
-                        <a href="single-product.html" class="le-button">加入购物车</a>
+                    <a href="<?= yii\helpers\Url::to(['cart/add', 'productid' => $hot['pid']]);?>" class="le-button">加入购物车</a>
                     </div>
                 </div>
             </div>
@@ -192,7 +192,7 @@
                                 </div>
                                 <div class="hover-area">
                                     <div class="add-cart-button">
-                                        <a href="single-product.html" class="le-button">加入购物车</a>
+                                    <a href="<?= yii\helpers\Url::to(['cart/add', 'productid' => $pro['pid']]);?>" class="le-button">加入购物车</a>
                                     </div>
 
                                 </div>
@@ -260,7 +260,7 @@
                                     <div class="price-current">￥<?= $pro_list['price']?></div>
                                     <?php endif;?>
                                     <div class="availability"><label>存货:</label><span class="available">  现货</span></div>
-                                    <a class="le-button" href="#">加入购物车</a>
+                                        <a class="le-button" href="<?= yii\helpers\Url::to(['cart/add', 'productid' => $pro_list['pid']]);?>">加入购物车</a>
                                 </div>
                             </div><!-- /.price-area -->
                         </div><!-- /.row -->
