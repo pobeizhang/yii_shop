@@ -1,8 +1,8 @@
-
 <!-- ============================================================= HEADER : END ============================================================= -->		<section id="cart-page">
     <div class="container">
         <!-- ========================================= CONTENT ========================================= -->
         <div class="col-xs-12 col-md-9 items-holder no-margin">
+        <?php $total = 0;?>
             <?php foreach($data as $k=>$v):?>
             <div class="row no-margin cart-item">
                 <div class="col-xs-12 col-sm-2 no-margin">
@@ -31,12 +31,13 @@
                 </div>
 
                 <div class="col-xs-12 col-sm-2 no-margin">
-                    <div class="price">
-                    $<?= $v['price']?>
+                    <div class="price" id = "price<?= $v['cartid']?>">
+                    $<span><?= $v['price']?></span>
                     </div>
-                    <a class="close-btn" href="#"></a>
+                    <a class="close-btn" href="<?= yii\helpers\Url::to(['cart/del', 'cartid' => $v['cartid']])?>"></a>
                 </div>
             </div><!-- /.cart-item -->
+            <?php $total += $v['price'] * $v['productnum']?>
             <?php endforeach;?>
         </div>
         <!-- ========================================= CONTENT : END ========================================= -->
@@ -50,22 +51,18 @@
                     <ul class="tabled-data no-border inverse-bold">
                         <li>
                             <label>购物车总价</label>
-                            <div class="value pull-right">$8434.00</div>
-                        </li>
-                        <li>
-                            <label>运费</label>
-                            <div class="value pull-right">$10</div>
+                            <div class="value pull-right">$<span><?= $total;?></span></div>
                         </li>
                     </ul>
                     <ul id="total-price" class="tabled-data inverse-bold no-border">
                         <li>
                             <label>订单总价</label>
-                            <div class="value pull-right">$8444.00</div>
+                            <div class="value pull-right ordertotal">$<span><?= $total;?></span></div>
                         </li>
                     </ul>
                     <div class="buttons-holder">
                         <a class="le-button big" href="checkout.html" >去结算</a>
-                        <a class="simple-link block" href="index.html" >继续购物</a>
+                        <a class="simple-link block" href="<?= yii\helpers\Url::to(['index/index']);?>" >继续购物</a>
                     </div>
                 </div>
             </div><!-- /.widget -->

@@ -39,6 +39,8 @@ class Home_product extends ActiveRecord
             ['title', 'required', 'message' => '请填写商品标题'],
             ['descr', 'required', 'message' => '请填写商品描述'],
             ['price', 'required', 'message' => '请填写商品价格'],
+            ['saleprice', 'required', 'message' => '请填写商品促销价格'],
+            ['num', 'required', 'message' => '请填写商品库存'],
             [['price', 'saleprice'], 'number', 'min' => '0.01', 'message' => '商品价格必须是数字'],
             ['num', 'integer', 'min' => '0', 'message' => '商品库存必须是数字'],
             [['issale', 'ishot', 'pics', 'istui'], 'safe'],

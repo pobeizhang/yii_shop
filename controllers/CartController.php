@@ -73,5 +73,20 @@ class CartController extends CommonController
         $model->save();
         return $this->redirect(['cart/index']);
     }
+    //public $enableCsrfValidation = false;
+    //修改购物车中商品的数量
+    public function actionMod()
+    {
+        $cartid = Yii::$app->request->post('cartid');
+        $productnum = Yii::$app->request->post('productnum');
+        Home_cart::updateAll(['productnum' => $productnum], 'cartid = :id', [':id' => $cartid]);
+    }
 
+    //删除购物车
+    public function actionDel()
+    {
+        $cartid = Yii::$app->request->get('cartid');
+        Home_cart::deleteAll('cartid = :id', [':id' => $cartid]);
+        return $this->redirect(['cart/index']);
+    }
 }

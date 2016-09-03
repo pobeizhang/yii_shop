@@ -1,3 +1,4 @@
+<?php use yii\helpers\Html;?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 	<head>
@@ -9,11 +10,10 @@
 		<meta name="author" content="">
 	    <meta name="keywords" content="MediaCenter, Template, eCommerce">
 	    <meta name="robots" content="all">
-
 	    <title>慕课商城</title>
 	    <!-- Bootstrap Core CSS -->
 	    <link rel="stylesheet" href="assets/home/css/bootstrap.min.css">
-
+        <?= Html::csrfMetaTags()?>
 	    <!-- Customizable CSS -->
 	    <link rel="stylesheet" href="assets/home/css/main.css">
 	    <link rel="stylesheet" href="assets/home/css/red.css">
@@ -556,7 +556,63 @@
 	<script type="text/javascript">
 		$('#createlink').click(function(){
 			$('.billing-address').slideDown();
-		});
+        });
+        //从购物车中减少商品
+        $('.minus').click(function(){
+            var cartid = $( this ).siblings( "input[name=productnum]" ).attr('id');
+            //购物车减少之后的数量
+            var num =parseInt( $( this ).siblings( "input[name=productnum]" ).val()) - 1;
+            if( parseInt( $( this ).siblings( "input[name=productnum]" ).val()) <= 0 ) {
+                var num = 0;
+            }
+            changeProductNum(cartid, num);
+            //购物车中商品总价
+            var cart_total_price = parseFloat( $( '.value.pull-right span' ).html() );
+            //购物车中某一件商品的单价
+            var one_product_price = parseFloat( $( '#price'+cartid+' span' ).html() );
+            if(parseInt( $( this ).siblings( "input[name=productnum]" ).val()) >= 1 ) {
+                var price = cart_total_price - one_product_price;
+            }
+            if(price < 0) {
+                price = 0;    
+            }
+            $( '.value.pull-right span' ).html(price);
+            $('.value.pull-right.ordertotal span').html(price);
+        });
+        //从购物车中增加商品
+        $('.plus').click(function(){
+            var cartid = $(this).siblings("input[name=productnum]").attr('id');
+            //购物车增加后的数量
+            var num = parseInt( $( this ).siblings( "input[name=productnum]" ).val() ) + 1;
+            changeProductNum(cartid, num);
+            //购物车中商品总价
+            var cart_total_price = parseFloat( $( '.value.pull-right span' ).html() );
+            //购物车中某一件商品的单价
+            var one_product_price = parseFloat( $( '#price'+cartid+' span' ).html() );
+            var price = cart_total_price + one_product_price;
+            $( '.value.pull-right span' ).html(price);
+            $('.value.pull-right.ordertotal span').html(price);
+        });
+
+        function changeProductNum(cartid, num) {
+            var csrfToken = $('meta[name="csrf-token"]').attr("content");
+            console.log(csrfToken);
+            $.ajax({
+                url: "<?= yii\helpers\Url::to(['cart/mod'])?>",
+                type: 'post',
+                dataType: 'json',
+                data: {cartid: cartid, productnum: num, _csrf: csrfToken},
+                success: function(data) {
+                    //location.reload();
+                    console.log(data); 
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr);
+                    console.log(status);
+                    console.log(error);
+                }
+            });    
+        }
 	</script>
 </body>
 </html>
