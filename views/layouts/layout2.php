@@ -11,7 +11,7 @@
 	    <meta name="robots" content="all">
 
 	    <title>商品分类 - 慕课商城</title>
-
+        <meta property="wb:webmaster" content="50f6a0dbb1f9f077" />
 	    <!-- Bootstrap Core CSS -->
 	    <link rel="stylesheet" href="assets/home/css/bootstrap.min.css">
 

@@ -1,5 +1,6 @@
 <?php namespace app\controllers;
 use yii\web\Controller;
+use Yii;
 
 class OrderController extends Controller
 {
@@ -17,5 +18,9 @@ class OrderController extends Controller
         return $this->render('check');
     }
 
-
+    //生成订单
+    public function actionAdd()
+    {
+        p(Yii::$app->request->post());
+    }
 }

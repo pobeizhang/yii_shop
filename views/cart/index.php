@@ -1,9 +1,18 @@
+<?php use yii\bootstrap\ActiveForm;?>
 <!-- ============================================================= HEADER : END ============================================================= -->		<section id="cart-page">
     <div class="container">
         <!-- ========================================= CONTENT ========================================= -->
+        <?php
+            $form = ActiveForm::begin([
+                'action' => yii\helpers\Url::to(['order/add'])
+            ]);
+        ?>
         <div class="col-xs-12 col-md-9 items-holder no-margin">
         <?php $total = 0;?>
             <?php foreach($data as $k=>$v):?>
+            <input type = 'hidden' name = "orderDetail[<?= $k?>]['productid']" value = "<?= $v['productid']?>" />
+            <input type = 'hidden' name = "orderDetail[<?= $k?>]['productnum']" value = "<?= $v['productnum']?>" />
+            <input type = 'hidden' name ="orderDetail[<?= $k?>]['price']" value = "<?= $v['price']?>" />
             <div class="row no-margin cart-item">
                 <div class="col-xs-12 col-sm-2 no-margin">
                     <a href="#" class="thumb-holder">
@@ -21,11 +30,9 @@
                 <div class="col-xs-12 col-sm-3 no-margin">
                     <div class="quantity">
                         <div class="le-quantity">
-                            <form>
-                                <a class="minus" href="#reduce"></a>
-                                <input name="productnum" id = "<?= $v['cartid']?>" readonly="readonly" type="text" value="<?= $v['productnum']?>" />
-                                <a class="plus" href="#add"></a>
-                            </form>
+                            <a class="minus" href="#reduce"></a>
+                            <input name="productnum" id = "<?= $v['cartid']?>" readonly="readonly" type="text" value="<?= $v['productnum']?>" />
+                            <a class="plus" href="#add"></a>
                         </div>
                     </div>
                 </div>
@@ -61,25 +68,15 @@
                         </li>
                     </ul>
                     <div class="buttons-holder">
-                        <a class="le-button big" href="checkout.html" >去结算</a>
+                        <input type = "submit" class="le-button big" value = "去结算" />
                         <a class="simple-link block" href="<?= yii\helpers\Url::to(['index/index']);?>" >继续购物</a>
                     </div>
                 </div>
             </div><!-- /.widget -->
 
-            <div id="cupon-widget" class="widget">
-                <h1 class="border">使用优惠券</h1>
-                <div class="body">
-                    <form>
-                        <div class="inline-input">
-                            <input data-placeholder="请输入优惠券码" type="text" />
-                            <button class="le-button" type="submit">使用</button>
-                        </div>
-                    </form>
-                </div>
-            </div><!-- /.widget -->
+            
         </div><!-- /.sidebar -->
-
+        <?php ActiveForm::end();?>
         <!-- ========================================= SIDEBAR : END ========================================= -->
     </div>
 </section>		<!-- ============================================================= FOOTER ============================================================= -->
