@@ -6,6 +6,7 @@ use app\models\Home_user;
 use app\models\Home_product;
 use app\models\Home_cart;
 use app\models\Home_order_detail;
+use app\models\Home_address;
 
 class OrderController extends Controller
 {
@@ -19,8 +20,29 @@ class OrderController extends Controller
     //前台收银台页面
     public function actionCheck()
     {
+        if(Yii::$app->session['home']['isLogin'] != 1) {
+            return $this->redirect(['member/auth']);
+        }
+        $orderid = Yii::$app->request->get('orderid');
+        $status = Home_order::find()->where('orderid = :oid', [':oid' => $orderid])->one()->status;
+        //如何已经支付过，则不能再进入到收银台页面
+        if($status != Home_order::CREATEORDER && $status != Home_order::CHECKORDER) {
+            return $this->redirect(['order/index']);
+        }
+        $userid = Home_user::find()->where('homename = :uname', [':uname' => Yii::$app->session['home']['homename']])->one()->uid;
+        $addresses = Home_address::find()->where('userid = :uid', [':uid' => $userid])->asArray()->all();
+        $orderDetails = Home_order_detail::find()->where('orderid = :oid', [':oid' => $orderid])->asArray()->all();
+        $data = [];
+        foreach ($orderDetails as $detail) {
+            $model = Home_product::find()->where('pid = :id', [':id' => $detail['productid']])->one();
+            $detail['title'] = $model->title;
+            $detail['cover'] = $model->cover;
+            $data[] = $detail;
+        }
+        $express = Yii::$app->params['express'];
+        $expressPrice = Yii::$app->params['expressPrice'];
         $this->layout = "layout1";
-        return $this->render('check');
+        return $this->render('check', ['express' => $express, 'expressPrice' => $expressPrice, 'addresses' => $addresses, 'products' => $data]);
     }
 
     //生成订单
@@ -58,7 +80,7 @@ class OrderController extends Controller
                     if(!$model->addData($data)) {
                         throw new \Exception('$model->addData($data)');
                     }
-                    Home_cart::deleteAll('productid = :pid', [':pid' => $product['productid']]);
+                    //Home_cart::deleteAll('productid = :pid', [':pid' => $product['productid']]);
                     Home_product::updateAll(['num' => -$product['productnum']], 'pid = :id', [':id' => $product['productid']]);
                 }
             }
