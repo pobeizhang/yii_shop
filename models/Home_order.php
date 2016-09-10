@@ -33,7 +33,7 @@ class Home_order extends ActiveRecord
     {
         return [
             [['userid', 'status'], 'required', 'on' => 'add'],
-           //[['addressid', 'expressid', 'amount', 'status'], 'required', 'on' => 'update'],
+            [['addressid', 'expressid', 'amount', 'status'], 'required', 'on' => 'update'],
             //['expressno', 'required', 'message' => '请输入快递单号', 'on' => 'send'],
             ['created_time', 'safe', 'on' => 'add']
         ];

@@ -92,4 +92,61 @@ class OrderController extends Controller
         }
         return $this->redirect(['order/check', 'orderid' => $orderid]);
     }
+    //确认订单
+    public function actionConfirm()
+    {
+        //判断是否登陆
+        if(Yii::$app->session['home']['isLogin'] != 1) {
+            return $this->redirect(['member/auth']);
+        }
+        //$transaction = Yii::$app->db->beginTransaction();
+        try {
+            //判断是否是post提交
+            if(Yii::$app->request->isPost) {
+                $post = Yii::$app->request->post();
+                $usermodel = Home_user::find()->where('homename = :name', [':name' => Yii::$app->session['home']['homename']])->one();
+                if(empty($usermodel)) {
+                    throw new \Exception('usermodel is empty');
+                }
+                $userid = $usermodel->uid;
+                $orderModel = Home_order::find()->where('orderid = :oid and userid = :uid', [':oid' => $post['orderid'], ':uid' => $userid])->one();
+                if(empty($orderModel)) {
+                    throw new \Exception('orderModel is empty');
+                }
+                $orderModel->scenario = 'update';
+                $orderModel->status = Home_order::CHECKORDER;
+                $orderDetails = Home_order_detail::find()->where('orderid = :oid', [':oid' => $post['orderid']])->all();
+                $amount = 0;
+                foreach ($orderDetails as $orderDetail) {
+                   $amount += $orderDetail->productnum * $orderDetail->price;
+                }
+                if ($amount < 0) {
+                    throw new \Exception('amount < 0 is error');
+                }
+                $express = Yii::$app->params['expressPrice'][$post['expressid']];
+                if ($express < 0) {
+                    throw new \Exception('express < 0 is error');
+                }
+                $amount += $express;
+                $post['amount'] = $amount;
+                //$data['Home_order'] = $post;
+                $data['Home_order']['addressid'] = $post['addressid'];
+                $data['Home_order']['expressid'] = $post['expressid'];
+                $data['Home_order']['orderid'] = $post['orderid'];
+                $data['Home_order']['amount'] = $amount;
+                $data['Home_order']['status'] = Home_order::CHECKORDER;
+                //p($data);die;
+                if($orderModel->load($data) && $orderModel->save()) {
+                    return $this->redirect(['order/pay', 'orderid' => $post['orderid'], 'payMethod' => $post['payMethod']]);
+                } else {
+                    throw new \Exception('orderModel->load and OrderModel->save are error');
+                }
+            }
+            //$transaction->commit();
+        } catch (\Exception $e) {
+            //$transaction->rollback();
+            p($e);die;
+            return $this->redirect(['index/index']);
+        }
+    }
 }

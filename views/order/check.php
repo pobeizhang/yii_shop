@@ -10,9 +10,10 @@
                     <?php foreach ($addresses as $key => $address):?>
                     <div class="row field-row" style="margin-top:10px">
                         <div class="col-xs-12">
-                        <input  class="le-radio big" type="radio" name="address" value = "<?= $addressid?>" <?php if ($key == 0) {echo 'checked = "checked"';}?> />
-                            <a class="simple-link bold" href="#"><?= $address['firstname'] . $address['lastname'] . " " . $address['company'] . " " . $address['address'] . $address['postcode'] . " " . $address['email'] . " " . $address['telephone']?></a>
+                            <input class="le-radio big" form = 'orderconfirm' type="radio" name="addressid" value = "<?= $address['addressid']?>" <?php if ($key == 0) {echo 'checked = "checked"';}?> />
+                            <a class="simple-link bold" href="#"><?= $address['firstname'] . $address['lastname'] . " " . $address['company'] . " " . $address['address'] . $address['postcode'] . " " . mb_strtolower($address['email']) . " " . $address['telephone']?></a>
                         </div>
+                        <a style = "margin-left:40px;" href = "<?= yii\helpers\Url::to(['address/del', 'addressid' => $address['addressid']]);?>">删除</a>
                     </div><!-- /.field-row -->
                     <?php endforeach;?>
             </section><!-- /#shipping-address -->
@@ -145,7 +146,7 @@
 
             <div id="payment-method-options">
                     <div class="payment-method-option">
-                        <input class="le-radio" id = 'alipay' type="radio" name="group2" value="alipay" checked>
+                        <input class="le-radio" id = 'alipay' type="radio" name="payMethod" value="alipay" checked>
                         <div class="radio-label bold ">支付宝支付</div>
                     </div><!-- /.payment-method-option -->
             </div><!-- /#payment-method-options -->
@@ -164,7 +165,7 @@
 var inputs = document.getElementsByClassName('express');
 var productTotalPrice = document.getElementById('productTotalPrice');
 var orderTotalPrice = document.getElementById('orderTotalPrice');
-for(var i=0;i<2;i++){
+for(var i=0;i<3;i++){
     inputs[i].onclick = function() {
         this.checked = true;
     
