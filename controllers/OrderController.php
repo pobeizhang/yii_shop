@@ -81,7 +81,8 @@ class OrderController extends Controller
                         throw new \Exception('$model->addData($data)');
                     }
                     //Home_cart::deleteAll('productid = :pid', [':pid' => $product['productid']]);
-                    Home_product::updateAll(['num' => -$product['productnum']], 'pid = :id', [':id' => $product['productid']]);
+                    $num = Home_product::find()->where('pid = :pid', [':pid' => $product['productid']])->one()->num - $product['productnum'];
+                    Home_product::updateAll(['num' => $num], 'pid = :id', [':id' => $product['productid']]);
                 }
             }
             $transaction->commit();
