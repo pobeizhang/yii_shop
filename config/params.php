@@ -11,7 +11,9 @@ return [
         //商品列表每页显示的条数
         'product' => 8,
         //前台商品每页展示条数
-        'frontProduct' => 9
+        'frontProduct' => 9,
+        //后台订单展示页面显示条数
+        'order' => 10
     ],
     'defaultValue' => [
     	'avatar' => 'assets/admin/img/contact-img.png'
