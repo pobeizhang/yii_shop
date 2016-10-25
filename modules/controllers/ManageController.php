@@ -1,10 +1,10 @@
 <?php namespace app\modules\controllers;
-use yii\web\Controller;
+use app\modules\controllers\CommonController;
 use Yii;
 use app\modules\models\Admin_user;
 use yii\data\Pagination;
 
-class ManageController extends Controller
+class ManageController extends CommonController
 {
 	//邮箱找回管理员密码操作
 	public function actionMailchangepass()

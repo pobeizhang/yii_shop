@@ -80,4 +80,31 @@ class Home_order extends ActiveRecord
         $order->zhstatus = self::$status[$order->status];
         return $order;
     }
+
+    //前台订单中心的订单数据处理
+    public static function getProduct($userid)
+    {
+        $orders = Home_order::find()->where('status > 0 && userid = :uid', [':uid' => $userid])->orderBy('created_time desc')->all();
+        foreach($orders as $order)
+        {
+            $details = Home_order_detail::find()->where('orderid = :oid', [':oid' => $order->orderid])->all();
+            $products = [];
+            foreach($details as $detail)
+            {
+                $product = Home_product::find()->where('pid = :id', [':id' => $detail->productid])->one();
+                if(empty($product))
+                {
+                    continue;
+                }
+                //将库存更改为商品的购买数量
+                $product->num = $detail->productnum;
+                $product->price = $detail->price;
+                $product->cate = Home_category::find()->where('cid = :id', [':id' => $product->cid])->one()->title;
+                $products[]  = $product;
+            }
+            $order->zhstatus = self::$status[$order->status];
+            $order->products = $products;
+        }
+        return $orders;
+    }
 }

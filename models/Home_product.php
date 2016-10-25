@@ -8,6 +8,8 @@ class Home_product extends ActiveRecord
     const SK = 'LKoul4nC5YgfTJ4S2MPQWhhf5fttlFX-gdCMTWjm';
     const DOMAIN = 'obzlvnjse.bkt.clouddn.com';//临时域名
     const BUCKET = 'yii-shop';//空间名称
+    public $cate;
+
     public static function tableName()
     {
         return "{{%home_product}}";

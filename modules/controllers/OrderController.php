@@ -1,7 +1,7 @@
 <?php 
 namespace app\modules\controllers;
 
-use yii\web\Controller;
+use app\modules\controllers\CommonController;
 use Yii;
 use yii\data\Pagination;
 
@@ -13,7 +13,7 @@ use app\models\Home_user;
 
 
 
-class OrderController extends Controller
+class OrderController extends CommonController
 {
     //订单列表
     public function actionList()
@@ -36,5 +36,24 @@ class OrderController extends Controller
         $order = Home_order::find()->where('orderid = :oid', [':oid' => $orderid])->one();
         $orderDetail = Home_order::getData($order);
        return $this->render('detail', ['orderDetail' => $orderDetail]);
+    }
+
+    //发货
+    public function actionSend()
+    {
+        $this->layout = 'layout1';
+        $orderid = Yii::$app->request->get('orderid');
+        $model = Home_order::find()->where('orderid = :oid', [':oid' => $orderid])->one();
+        $model->scenario = 'send';
+        if(Yii::$app->request->isPost)
+        {
+            $post = Yii::$app->request->post();
+            $model->status = Home_order::SENDED;
+            if($model->load($post) && $model->save())
+            {
+               return $this->redirect(['order/list', 'orderid' => $orderid]);
+            }
+        }
+        return $this->render('send', ['model' => $model]);
     }
 }

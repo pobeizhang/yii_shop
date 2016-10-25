@@ -67,6 +67,9 @@
                                     <td>
                                     <span class="label label-<?= $info;?>"><?= $order->zhstatus;?></span></td>
                                     <td class="align-right">
+                                    <?php if($order->status == 202): ?>
+                                        <a href = "<?= yii\helpers\Url::to(['order/send', 'orderid' => $order->orderid]);?>">发货</a>
+                                    <?php endif; ?>
                                     <a href="<?= yii\helpers\Url::to(['order/orderdetail', 'orderid' => $order->orderid]);?>">查看</a></td>
                                 </tr>
                                 <?php endforeach; ?>

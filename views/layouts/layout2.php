@@ -46,8 +46,8 @@
             <ul>
                 <li><a href="index.html">首页</a></li>
                 <li><a href="category-grid.html">所有分类</a></li>
-                <li><a href="cart.html">我的购物车</a></li>
-                <li><a href="orders.html">我的订单</a></li>
+                <li><a href="<?= yii\helpers\Url::to(['cart/index']);?>">我的购物车</a></li>
+                <li><a href="<?= yii\helpers\Url::to(['order/index']);?>">我的订单</a></li>
             </ul>
         </div><!-- /.col -->
 
@@ -594,7 +594,28 @@
 	<script type="text/javascript">
 		$('#createlink').click(function(){
 			$('.billing-address').slideDown();
-		});
+        });
+        $("li.disabled").hide();
+        $(".expressshow").hide();
+        $(".express").hover(function(){
+            var a = $(this);
+            if($(this).attr("data") != "ok") {
+                console.log($(this).attr('data'));
+                $.get('<?= yii\helpers\Url::to(['order/getexpress']);?>', {'expressno': $(this).attr('data')}, function(res){
+                    var str = "";
+                    if(res.message == 'ok') {
+                        for(var i = 0; i < res.data.length; i++) {
+                            str += "<p>" + res.data[i].context + " " + res.data[i].time + " </p>";
+                        }
+                        a.find(".expressshow").html(str);
+                        a.attr('data', 'ok');
+                    }
+                }, 'json');
+            }
+            $(this).find('.expressshow').show();
+        }, function(){
+            $(this).find('.expressshow').hide();
+        });
 	</script>
 </body>
 </html>

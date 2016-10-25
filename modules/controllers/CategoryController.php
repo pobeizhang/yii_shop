@@ -1,13 +1,13 @@
 <?php
     namespace app\modules\controllers;
 
-    use yii\web\Controller;
+    use app\modules\controllers\CommonController;
     use app\models\Home_category;
     use Yii;
     use app\modules\extentions\Data;
     use yii\helpers\ArrayHelper;
 
-class CategoryController extends Controller
+class CategoryController extends CommonController
 {
 
     //商品分类列表

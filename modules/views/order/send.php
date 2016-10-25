@@ -15,9 +15,6 @@
                     <div class="span9 with-sidebar">
                         <div class="container">
                                 <?php
-                                    //if (Yii::$app->session->hasFlash('info')) {
-                                        //echo Yii::$app->session->getFlash('info');
-                                    //}
                                     $form = ActiveForm::begin([
                                         'fieldConfig' => [
                                             'template' => '<div class="span12 field-box">{label}{input}</div>{error}',

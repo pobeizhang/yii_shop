@@ -1,13 +1,13 @@
 <?php
     namespace app\modules\controllers;
-    use yii\web\Controller;
+    use app\modules\controllers\CommonController;
     use Yii;
     use app\models\Home_product;
     use app\models\Home_category;
     use crazyfd\qiniu\Qiniu;
     use yii\data\Pagination;
 
-class ProductController extends Controller
+class ProductController extends CommonController
 {
     //商品列表
     public function actionProductlist()

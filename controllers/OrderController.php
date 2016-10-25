@@ -7,14 +7,24 @@ use app\models\Home_product;
 use app\models\Home_cart;
 use app\models\Home_order_detail;
 use app\models\Home_address;
+use app\controllers\CommonController;
+use dzer\express\Express;
 
-class OrderController extends Controller
+class OrderController extends CommonController
 {
     //用户订单中心页面
     public function actionIndex()
     {
         $this->layout = "layout2";
-        return $this->render('index');
+        if(Yii::$app->session['home']['isLogin'] != 1)
+        {
+            return $this->redirect(['member/auth']);
+        }
+        $homename = Yii::$app->session['home']['homename'];
+        $userid = Home_user::find()->where('homename = :uname', [':uname' => $homename])->one()->uid;
+        $orders = Home_order::getProduct($userid);
+        //p($orders);
+        return $this->render('index', ['orders' => $orders]);
     }
 
     //前台收银台页面
@@ -88,8 +98,8 @@ class OrderController extends Controller
             $transaction->commit();
         } catch (\Exception $e) {
             $transaction->rollback();
-            p($e);die;
-            //return $this->redirect(['cart/index']);
+            //p($e);die;
+            return $this->redirect(['cart/index']);
         }
         return $this->redirect(['order/check', 'orderid' => $orderid]);
     }
@@ -146,8 +156,29 @@ class OrderController extends Controller
             //$transaction->commit();
         } catch (\Exception $e) {
             //$transaction->rollback();
-            p($e);die;
             return $this->redirect(['index/index']);
         }
+    }
+
+    public function actionGetexpress()
+    {
+        $expressno = Yii::$app->request->get('expressno');
+        $res = Express::search($expressno);
+        //p($expressno);die;
+        echo $res;
+        die;
+    }
+
+    //确认收货操作
+    public function actionReceived()
+    {
+        $orderid = Yii::$app->request->get('orderid');
+        $order = Home_order::find()->where('orderid = :oid', [':oid' => $orderid])->one();
+        if(!empty($order) && $order->status == Home_order::SENDED)
+        {
+            $order->status = Home_order::RECEIVED;
+            $order->save();
+        }
+        return $this->redirect(['order/index']);
     }
 }

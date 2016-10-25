@@ -1,12 +1,12 @@
 <?php namespace app\modules\controllers;
-use yii\web\Controller;
+use app\modules\controllers\CommonController;
 use Yii;
 use app\models\Home_user;
 use app\models\Home_profile;
 use yii\data\Pagination;
 
 //前台会员模块
-class UserController extends Controller
+class UserController extends CommonController
 {
 	
 	//添加会员
