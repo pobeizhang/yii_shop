@@ -14,7 +14,6 @@
 	    <!-- Bootstrap Core CSS -->
 	    <link rel="stylesheet" href="assets/home/css/bootstrap.min.css">
         <?= Html::csrfMetaTags()?>
-        <meta property="wb:webmaster" content="50f6a0dbb1f9f077" />
 	    <!-- Customizable CSS -->
 	    <link rel="stylesheet" href="assets/home/css/main.css">
 	    <link rel="stylesheet" href="assets/home/css/red.css">

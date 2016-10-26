@@ -26,17 +26,18 @@ class Home_user extends ActiveRecord
 	public function rules()
 	{
 		return [
-			['homename', 'required', 'message' => '会员名称不能为空', 'on' => ['addUser', 'userLogin']],
+			['homename', 'required', 'message' => '会员名称不能为空', 'on' => ['addUser', 'userLogin', 'qqreg']],
+            ['openid', 'required', 'message' => 'openid不能为空', 'on' => 'qqreg'],
+            ['openid', 'unique', 'message' => 'openid已经被注册', 'on' => ['qqreg']],
 			['homeemail', 'required', 'message' => '会员邮箱不能为空', 'on' => ['addUser', 'registerByEmail']],
 			['rememberMe', 'boolean', 'on' => 'userLogin'],
 			['homeemail', 'email', 'message' => '邮箱格式不正确', 'on' => ['addUser']],
-			['homename', 'unique', 'message' => '此用户名已被占用', 'on' => ['addUser']],
+			['homename', 'unique', 'message' => '此用户名已被占用', 'on' => ['addUser', 'qqreg']],
 			['homeemail', 'unique', 'message' => '此邮箱已被注册', 'on' => ['addUser', 'registerByEmail']],
-			['homepwd', 'required', 'message' => '会员密码不能为空', 'on' => ['addUser', 'userLogin']],
-			['homepwd', 'validateHomepwd', 'on' => 'userLogin'],
-			['rehomepwd', 'required', 'message' => '确认密码不能为空', 'on' => ['addUser']],
-			['rehomepwd' ,'compare', 'compareAttribute' => 'homepwd', 'message' => '两次密码不一致', 'on' => ['addUser']]
-			
+			['homepwd', 'required', 'message' => '会员密码不能为空', 'on' => ['addUser', 'userLogin', 'qqreg']],
+			['homepwd', 'validateHomepwd', 'on' => ['userLogin']],
+			['rehomepwd', 'required', 'message' => '确认密码不能为空', 'on' => ['addUser', 'qqreg']],
+			['rehomepwd' ,'compare', 'compareAttribute' => 'homepwd', 'message' => '两次密码不一致', 'on' => ['addUser', 'qqreg']]
 		];
 	}
 	

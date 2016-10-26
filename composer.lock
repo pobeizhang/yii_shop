@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7f90889449283cec7f6d1875913552b6",
-    "content-hash": "9cc7d3952a4c60ede22ec8126e5baaf4",
+    "hash": "995c2b1a517b57657692e159c497a8c4",
+    "content-hash": "7f23b93e09d8b8f18e71bce5f5422387",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -434,6 +434,49 @@
                 "mailer"
             ],
             "time": "2016-07-08 11:51:25"
+        },
+        {
+            "name": "xiaosier/libweibo",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xiaosier/libweibo.git",
+                "reference": "2c9524190c4334e208613ad8f65365471c526954"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/xiaosier/libweibo/2c9524190c4334e208613ad8f65365471c526954.zip",
+                "reference": "2c9524190c4334e208613ad8f65365471c526954",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "saetv2.ex.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "lazypeople",
+                    "email": "hfutming@gmail.com",
+                    "homepage": "http://lazy.changes.com.cn",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP sdk for Weibo open platform",
+            "homepage": "http://github.com/xiaosier/libweibo",
+            "keywords": [
+                "sdk",
+                "weibo"
+            ],
+            "time": "2016-06-20 04:43:55"
         },
         {
             "name": "yiisoft/yii2",
@@ -987,7 +1030,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "crazyfd/yii2-qiniu": 20
+        "crazyfd/yii2-qiniu": 20,
+        "xiaosier/libweibo": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

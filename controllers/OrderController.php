@@ -90,6 +90,7 @@ class OrderController extends CommonController
                     if(!$model->addData($data)) {
                         throw new \Exception('$model->addData($data)');
                     }
+                    //生成订单后删除购物车
                     //Home_cart::deleteAll('productid = :pid', [':pid' => $product['productid']]);
                     $num = Home_product::find()->where('pid = :pid', [':pid' => $product['productid']])->one()->num - $product['productnum'];
                     Home_product::updateAll(['num' => $num], 'pid = :id', [':id' => $product['productid']]);
@@ -160,6 +161,7 @@ class OrderController extends CommonController
         }
     }
 
+    //用于订单展示页面获取物流信息
     public function actionGetexpress()
     {
         $expressno = Yii::$app->request->get('expressno');

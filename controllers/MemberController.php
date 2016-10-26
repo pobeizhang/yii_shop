@@ -45,4 +45,56 @@ class MemberController extends CommonController
 		$this->layout = 'layout2';
 		return $this->render('auth', ['model' => $model]);
 	}
+
+    //qq登录
+    public function actionQqlogin()
+    {
+        require_once('../vendor/qqlogin/qqConnectAPI.php');
+        $qc = new \QC();
+        $qc->qq_login();
+    }
+
+    //qq登录回调函数
+    public function actionQqcallback()
+    {
+        require_once("../vendor/qqlogin/qqConnectAPI.php");
+        $oauth = new \Oauth();
+        $access_token = $oauth->qq_callback();
+        $openid = $oauth->get_openid();
+        $qc = new \QC($access_token, $openid);
+        $userinfo = $qc->get_user_info();
+        //$session = Yii::$app->session;
+        Yii::$app->session['userinfo'] = $userinfo;
+        Yii::$app->session['openid'] = $openid;
+        if($model = Home_user::find()->where('openid = :openid', [':openid' => $openid])->one())
+        {
+            Yii::$app->session['home'] = [
+                "homename" => Yii::$app->session['userinfo']['nickname'],
+                "isLogin" => 1
+            ];
+            return $this->redirect(['index/index']);
+        }
+        return $this->redirect(['member/qqreg']);
+    }
+
+    //绑定用户使用qq登录时的qq账号
+    public function actionQqreg()
+    {
+        $this->layout = 'layout2';
+        $model = new Home_user;
+        if(Yii::$app->request->isPost)
+        {
+            $session = Yii::$app->session;
+            $post = Yii::$app->request->post();
+            $post['Home_user']['openid'] = $session['openid'];
+            if($model->addUser($post, 'qqreg'))
+            {
+                $session['home']['homename'] = $post['Home_user']['homename'];
+                $session['home']['isLogin'] = 1;
+                return $this->redirect(['index/index']);
+            }
+            //p($model->getErrors());
+        }
+        return $this->render('qqreg', ['model' => $model]);
+    }
 }
