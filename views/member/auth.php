@@ -18,7 +18,8 @@
 								<button id = "login_qq" class="btn-block btn-lg btn btn-facebook"><i class="fa fa-qq"></i> 使用QQ账号登录</button>
 							</div>
 							<div class="col-md-6">
-								<button class="btn-block btn-lg btn btn-twitter"><i class="fa fa-weibo"></i> 使用新浪微博账号登录</button>
+                            <!-- <button class="btn-block btn-lg btn btn-twitter"><i class="fa fa-weibo"></i> 使用新浪微博账号登录</button>-->
+                            <wb:login-button type="1,2" onlogin="login" onlogout="logout">登录按钮</wb:login-button>
 							</div>
 						</div>
 					</div>

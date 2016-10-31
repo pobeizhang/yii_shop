@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" xmlns:wb="http://open.weibo.com/wb">
 	<head>
 		<!-- Meta -->
 		<meta charset="utf-8">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		<meta name="description" content="">
-		<meta name="author" content="">
-	    <meta name="keywords" content="">
+		<meta name="description" content="杜磊的个人用于测试实验的商城">
+		<meta name="author" content="杜磊">
+	    <meta name="keywords" content="du_shop,杜磊,杜磊的个人商城,shop,shopping">
 	    <meta name="robots" content="all">
-
-	    <title>商品分类 - 慕课商城</title>
+        <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=764346969" type="text/javascript" charset="utf-8"></script>
+	    <title>du_shop</title>
         <meta property="wb:webmaster" content="50f6a0dbb1f9f077" />
 	    <!-- Bootstrap Core CSS -->
 	    <link rel="stylesheet" href="assets/home/css/bootstrap.min.css">
@@ -54,7 +54,11 @@
         <div class="col-xs-12 col-sm-6 no-margin">
             <ul class="right">
             	<?php if(\Yii::$app->session['home']['isLogin'] == 1):?>
-            		你好，欢迎回来<?php echo Yii::$app->session['home']['homename']?>
+                    <?php if(\Yii::$app->session['home']['mark'] == 'qqlogin'): ?>
+                    你好，欢迎回来<?php echo \Yii::$app->session['home']['qqloginname'];?>
+                    <?php else:?>
+                    你好，欢迎回来<?php echo \Yii::$app->session['home']['homename']; ?>
+                    <?php endif;?>
             	<?php else:?>
                 <li><a href="<?php echo yii\helpers\Url::to(['member/auth']);?>">注册</a></li>
                 <li><a href="<?php echo yii\helpers\Url::to(['member/auth']);?>">登录</a></li>
@@ -71,19 +75,19 @@
 			<!-- ============================================================= LOGO ============================================================= -->
 <div class="logo">
 	<a href="index.html">
-		<img alt="logo" src="assets/home/images/logo.PNG" width="233" height="54"/>
+		<img alt="logo" src="assets/home/images/logo.png" width="233" height="54"/>
 	</a>
 </div><!-- /.logo -->
 <!-- ============================================================= LOGO : END ============================================================= -->		</div><!-- /.logo-holder -->
 
 		<div class="col-xs-12 col-sm-12 col-md-6 top-search-holder no-margin">
 			<div class="contact-row">
-    <div class="phone inline">
+    <!--<div class="phone inline">
         <i class="fa fa-phone"></i> (+086) 123 456 7890
     </div>
     <div class="contact inline">
         <i class="fa fa-envelope"></i> contact@<span class="le-color">jason.com</span>
-    </div>
+    </div>-->
 </div><!-- /.contact-row -->
 <!-- ============================================================= SEARCH AREA ============================================================= -->
 <div class="search-area">
@@ -98,7 +102,7 @@
 
                     <ul class="dropdown-menu" role="menu" >
                         <?php foreach($this->params['menu'] as $top):?>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="category-grid.html"><?= $top['title']?></a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><?= $top['title']?></a></li>
                         <?php endforeach;?>
                     </ul>
                 </li>
@@ -121,79 +125,45 @@
 
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <div class="basket-item-count">
-                    <span class="count">3</span>
+                    <span class="count"><?= $this->params['productnum']?></span>
                     <img src="assets/home/images/icon-cart.png" alt="" />
                 </div>
 
                 <div class="total-price-basket">
                     <span class="lbl">您的购物车:</span>
                     <span class="total-price">
-                        <span class="sign">￥</span><span class="value">3219</span>
+                        <span class="sign">￥</span><span class="value"><?= $this->params['total']?></span>
                     </span>
                 </div>
             </a>
 
             <ul class="dropdown-menu">
+                <?php foreach($this->params['carts']['products'] as $cart):?>
                 <li>
                     <div class="basket-item">
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 no-margin text-center">
                                 <div class="thumb">
-                                    <img alt="" src="assets/home/images/products/product-small-01.jpg" />
+                                    <img alt="" src="<?= $cart['cover']?>-coversmall" />
                                 </div>
                             </div>
                             <div class="col-xs-8 col-sm-8 no-margin">
-                                <div class="title">前端课程</div>
-                                <div class="price">￥270.00</div>
+                                <div class="title"><?= $cart['title'];?></div>
+                                <div class="price">￥<?= $cart['price']?></div>
                             </div>
                         </div>
-                        <a class="close-btn" href="#"></a>
+                        <a class="close-btn" href="<?= yii\helpers\Url::to(['cart/del', 'cartid' => $cart['cartid']]);?>"></a>
                     </div>
                 </li>
-
-                <li>
-                    <div class="basket-item">
-                        <div class="row">
-                            <div class="col-xs-4 col-sm-4 no-margin text-center">
-                                <div class="thumb">
-                                    <img alt="" src="assets/home/images/products/product-small-01.jpg" />
-                                </div>
-                            </div>
-                            <div class="col-xs-8 col-sm-8 no-margin">
-                                <div class="title">Java课程</div>
-                                <div class="price">￥270.00</div>
-                            </div>
-                        </div>
-                        <a class="close-btn" href="#"></a>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="basket-item">
-                        <div class="row">
-                            <div class="col-xs-4 col-sm-4 no-margin text-center">
-                                <div class="thumb">
-                                    <img alt="" src="assets/home/images/products/product-small-01.jpg" />
-                                </div>
-                            </div>
-                            <div class="col-xs-8 col-sm-8 no-margin">
-                                <div class="title">PHP课程</div>
-                                <div class="price">￥270.00</div>
-                            </div>
-                        </div>
-                        <a class="close-btn" href="#"></a>
-                    </div>
-                </li>
-
-
+                <?php endforeach;?>
                 <li class="checkout">
                     <div class="basket-item">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-6">
+                            <!--<div class="col-xs-12 col-sm-6">
                                 <a href="cart.html" class="le-button inverse">查看购物车</a>
-                            </div>
-                            <div class="col-xs-12 col-sm-6">
-                                <a href="checkout.html" class="le-button">去往收银台</a>
+                            </div>-->
+                            <div class="col-xs-12 col-sm-6" style = "float:right;">
+                                <a href="<?= yii\helpers\Url::to(['cart/index']);?>" class="le-button">查看购物车</a>
                             </div>
                         </div>
                     </div>
@@ -472,14 +442,13 @@
                 <!-- ============================================================= CONTACT INFO ============================================================= -->
 <div class="contact-info">
     <div class="footer-logo">
-		<img alt="logo" src="assets/home/images/logo.PNG" width="233" height="54"/>
+		<img alt="logo" src="assets/home/images/logo.png" width="233" height="54"/>
     </div><!-- /.footer-logo -->
 
-    <p class="regular-bold"> 请通过电话，电子邮件随时联系我们</p>
+    <p class="regular-bold"> 请通过电话，电子邮件随时联系我</p>
 
     <p>
-        西城区二环到三环德胜门外大街10号TCL大厦3层(马甸桥南), 北京市西城区, 中国
-        <br>慕课网 (QQ群:416465236)
+        北京市朝阳区十八里店南桥
     </p>
 
     <!--<div class="social-icons">
@@ -556,7 +525,7 @@
         <div class="container">
             <div class="col-xs-12 col-sm-6 no-margin">
                 <div class="copyright">
-                    &copy; <a href="index.html">Imooc.com</a> - all rights reserved
+                    &copy; <a href="index.html">shop.dlzhangyy.com</a> - all rights reserved
                 </div><!-- /.copyright -->
             </div>
             <div class="col-xs-12 col-sm-6 no-margin">

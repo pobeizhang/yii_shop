@@ -69,7 +69,9 @@ class MemberController extends CommonController
         if($model = Home_user::find()->where('openid = :openid', [':openid' => $openid])->one())
         {
             Yii::$app->session['home'] = [
-                "homename" => Yii::$app->session['userinfo']['nickname'],
+                "homename" => Home_user::find()->where('openid = :openid', [':openid' => $openid])->one()->homename,
+                "qqloginname" => Yii::$app->session['userinfo']['nickname'],
+                "mark" => "qqlogin",
                 "isLogin" => 1
             ];
             return $this->redirect(['index/index']);
@@ -89,8 +91,13 @@ class MemberController extends CommonController
             $post['Home_user']['openid'] = $session['openid'];
             if($model->addUser($post, 'qqreg'))
             {
-                $session['home']['homename'] = $post['Home_user']['homename'];
-                $session['home']['isLogin'] = 1;
+                $session['home'] =[
+                    'homename' => $post['Home_user']['homename'],
+                    'mark' => 'account',
+                    'isLogin'  => 1
+                ];
+                //$session['home']['homename'] = $post['Home_user']['homename'];
+                //$session['home']['isLogin'] = 1;
                 return $this->redirect(['index/index']);
             }
             //p($model->getErrors());

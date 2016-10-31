@@ -103,6 +103,7 @@ class Home_user extends ActiveRecord
 			session_set_cookie_params($lifetime);
 			$session['home'] = [
 				'homename' => $this->homename,
+                'mark' => 'account',
 				'isLogin' => 1
 			];
 			return (bool)$session['home']['isLogin'];

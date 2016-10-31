@@ -21,8 +21,16 @@ class OrderController extends CommonController
             return $this->redirect(['member/auth']);
         }
         $homename = Yii::$app->session['home']['homename'];
-        $userid = Home_user::find()->where('homename = :uname', [':uname' => $homename])->one()->uid;
-        $orders = Home_order::getProduct($userid);
+        if($model = Home_user::find()->where('homename = :uname', [':uname' => $homename])->one())
+        {
+            $userid = $model->uid;
+            $orders = Home_order::getProduct($userid);
+        } else {
+            $orders = [];
+        }
+        //$userid = Home_user::find()->where('homename = :uname', [':uname' => $homename])->one()->uid;
+        //p($userid);die;
+        //$orders = Home_order::getProduct($userid);
         //p($orders);
         return $this->render('index', ['orders' => $orders]);
     }
@@ -55,7 +63,7 @@ class OrderController extends CommonController
         return $this->render('check', ['express' => $express, 'expressPrice' => $expressPrice, 'addresses' => $addresses, 'products' => $data]);
     }
 
-    //生成订单
+    //订单预览页面
     public function actionAdd()
     {
         if(Yii::$app->session['home']['isLogin'] != 1) {
@@ -131,6 +139,7 @@ class OrderController extends CommonController
                 $amount = 0;
                 foreach ($orderDetails as $orderDetail) {
                    $amount += $orderDetail->productnum * $orderDetail->price;
+                   Home_cart::deleteAll('productid = :pid', [':pid' => $orderDetail->productid]);
                 }
                 if ($amount < 0) {
                     throw new \Exception('amount < 0 is error');
